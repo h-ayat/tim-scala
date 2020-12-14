@@ -1,0 +1,23 @@
+# SBT, bloop, LSP, BSP, metals
+.bloop/
+project/.bloop/
+.metals/
+project/metals.sbt
+.bsp/
+project/project/
+project/target/
+project/metals.sbt
+releases/
+target/
+
+
+# Editor, IDE, ETC...
+*.log
+.idea/
+*.iml
+.ensime
+.ensime_cache
+*#
+*.swp
+.arcconfig
+
