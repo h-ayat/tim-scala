@@ -1,2 +1,4 @@
-scala.version := "2.13.4"
+scalaVersion := "2.13.4"
+name := "tim2"
+
 
