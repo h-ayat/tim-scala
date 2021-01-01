@@ -11,36 +11,36 @@ final case class Timestamp(value: String) extends AnyVal {
   def second: Int = parse._3
 }
 
-// TODO better name
-final case class ActivityModeId(value: String) extends AnyVal
-final case class ActivityMode(
-    id: ActivityModeId,
+final case class ConceptId(value: String) extends AnyVal
+final case class Concept(
+    id: ConceptId,
     label: String,
     description: String,
     isDeprecated: Boolean
 )
 
-final case class ActivityId(value: String) extends AnyVal
-final case class Activity(
-    id: ActivityId,
+final case class TagId(value: String) extends AnyVal
+final case class Tag(
+    id: TagId,
     label: String,
-    modeId: ActivityModeId,
+    concept: Option[ConceptId],
     description: String,
     isDeprecated: Boolean
 )
 
-sealed trait Record {
+final case class IssueId(value: String) extends AnyVal
+
+sealed trait Entry {
   val start: Timestamp
 }
 
-object Record {
+object Entry {
   final case class Simple(
       start: Timestamp,
-      end: Timestamp,
-      activityId: Option[String],
+      tagId: Option[TagId],
       description: String,
-      issueId: Option[String]
-  ) extends Record
+      issueId: Option[IssueId]
+  ) extends Entry
 
-  final case class EndOfDay(start: Timestamp) extends Record
+  final case class EndOfDay(start: Timestamp) extends Entry
 }

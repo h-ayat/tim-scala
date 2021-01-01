@@ -1,4 +1,4 @@
 scalaVersion := "2.13.4"
-name := "tim2"
+name := "tim"
 
 
