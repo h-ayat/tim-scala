@@ -1,0 +1,55 @@
+#+title: Tim2 Notes
+
+* Idea
+** Intro to Tim(v1)
+Tim v1 was a python script that helped developers track their daily schedule with ease. This project aims to provide all that functionality plus some shiny new features.
+The primary motivation behind =tim= was ease of use for a developer who :
++ Uses linux
++ Is more comfortable with command line than Web/Desktop GUIs.
++ Is probably a fast typist, so that he is more comfortable entring commands than clicking buttons with a mouse
++ Is happy with a (light-weight) editor, so that he would like to directly edit JSON files instead of going through lots of menus to amend previous entries.
+** Primary Goals
+*** Modular and plugable code base to enable integration with other similar tools (like ORG clock table obviously!)
+*** All human interfaces communicate through a simple API (like REST), so that adding new interfaces could be easy
+*** A fast, easy, CLI is still the primary interface
+** Secondry Goals
+*** Multi-user and org-wide usage
+*** Scheduling ahead of time
+* Design
+** Structure
+At this moment, the project consists of two main modules: Engine and Cli, obviously :D
+** Data Model
+Some standards:
+1. Ids are permanent, unlike tim(v1) ids are system defined values and cannot be changed.
+2. Entities with possible foreign reference (like =Tag=, see below) cannot be deleted, but instead can be deprecated, so that it won't pop-up in searches and auto-completions. All instances are saved forever to maintain data consistency, hence the =deprecated= field in =Tag= and =Concept=
+*** Entry
+An entry is a data structure that describes a specefic point in time.
+**** Activity
+An entry that describes an activity.
++ timestamp
++ description
++ tag-id (optional)
++ issue-id (optional)
+***** Notes:
+- issue-id is a custom id that enables integration with an external issue-tracker or task manager (like, trello, jira, etc...). Tim(v1) had only integration with Jira and could update working times for Jira issues.
+**** Terminator
+An entry that stops last activity without starting a new one. Mostly used to indicate the end of the day.
++ timestamp
+*** Tag
+A user-difned entity that describes an activity and is used to provide a higher abstraction than activity. the conceptual abstraction level is completely up to the user, but as an example, this entity was designed with such tags at mind : Develop, Design, Study, Rest, etc...
++ id (permanent)
++ label
++ description
++ group-id(optional)
++ deprecated
+*** Concept
+An even higher level of abstraction over the tags to provide a higher level report on general distribution of time and effort, and also possible setting goals. An example of concept could be Work, Life, etc...
++ id (permanent)
++ label
++ description
++ deprecated
+* Action Plan
+** Dev
+** CI
+** MISC
+*** TODO Change the name!
