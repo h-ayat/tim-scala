@@ -59,6 +59,11 @@ CLOSED: [2021-01-01 Fri 18:33]
 *** DONE Project Structure
 CLOSED: [2021-01-01 Fri 19:43]
 *** TODO Core API
+*** TODO Config loader
+*** TODO Basic implementation for tags
+*** TODO Basic implementation for concepts
+*** TODO Basic implementation for entries
+
 ** CI
 ** MISC
 *** DONE Change the name!
