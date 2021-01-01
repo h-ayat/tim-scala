@@ -17,7 +17,12 @@ The primary motivation behind =tim-legacy= was ease of use for a developer who :
 *** Scheduling ahead of time
 * Design
 ** Structure
-At this moment, the project consists of two main modules: Engine and Cli, obviously :D
+The base design consists of the following modules:
++ Core: Core domain models, basic file engine
++ http: Base Engine as a HTTP-API
++ shell: An interactive shell for directly talking to the core
++ cli: A (remote) linux based command line tool for faster talking to the core. Uses HTTP-API behind the scene.
+  Unlike =http= and =shell= modules, the =cli= does not contain the engine and must talk to the =http= module.
 ** Data Model
 Some standards:
 1. Ids are permanent, unlike tim-legacy ids are system defined values and cannot be changed.
@@ -49,7 +54,9 @@ An even higher level of abstraction over the tags to provide a higher level repo
 + deprecated
 * Action Plan
 ** Dev
-*** TODO base data model
+*** DONE base data model
+CLOSED: [2021-01-01 Fri 18:33]
+*** TODO Project Structure
 ** CI
 ** MISC
 *** DONE Change the name!

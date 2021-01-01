@@ -1,4 +1,4 @@
-package tim
+package tim.core
 
 final case class Timestamp(value: String) extends AnyVal {
   def parse: (Int, Int, Int) = {
