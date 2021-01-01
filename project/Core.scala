@@ -6,6 +6,8 @@ object Core {
     version := "0.0.1",
     name := "core",
     libraryDependencies ++= Seq(
+      Dependencies.zio.core,
+      Dependencies.typesafeConfig
     )
   )
 }

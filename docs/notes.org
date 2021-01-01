@@ -56,7 +56,9 @@ An even higher level of abstraction over the tags to provide a higher level repo
 ** Dev
 *** DONE base data model
 CLOSED: [2021-01-01 Fri 18:33]
-*** TODO Project Structure
+*** DONE Project Structure
+CLOSED: [2021-01-01 Fri 19:43]
+*** TODO Core API
 ** CI
 ** MISC
 *** DONE Change the name!
