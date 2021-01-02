@@ -8,6 +8,6 @@ object Common {
   val commonSettings = Seq(
     organization := ORG,
     scalaVersion := SCALA_VERSION,
-    scalacOptions ++= Seq("-deprecation", "-feature")
+    scalacOptions ++= Seq("-deprecation", "-feature", "-Ymacro-annotations")
   )
 }
