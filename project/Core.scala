@@ -4,7 +4,7 @@ import sbt._
 object Core {
   lazy val dependencies = Seq(
     Dependencies.typesafeConfig
-  ) ++ Dependencies.zio.base ++ Dependencies.circe.base
+  ) ++ Dependencies.Zio.base ++ Dependencies.Circe.base
 
   lazy val settings = Common.commonSettings ++ Seq(
     version := "0.0.1",

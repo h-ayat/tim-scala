@@ -3,7 +3,7 @@ import sbt._
 
 object Dependencies {
 
-  val zio = new {
+  object Zio {
     private val group = "dev.zio"
 
     val core = group %% "zio" % Versions.zio
@@ -12,7 +12,7 @@ object Dependencies {
     val base = core :: macros :: Nil
   }
 
-  val circe = new {
+  object Circe {
     private val group = "io.circe"
 
     val core = group %% "circe-core" % Versions.circe

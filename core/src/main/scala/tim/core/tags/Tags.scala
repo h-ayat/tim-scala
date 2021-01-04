@@ -6,6 +6,7 @@ import tim.core.TagId
 import tim.core.Tag
 import zio.ZLayer
 import tim.core.config.Config
+import tim.core.files.Files
 
 @accessible
 object Tags {
@@ -40,6 +41,8 @@ object Tags {
     ): IO[TagNotFound, Boolean]
   }
 
-  val fileBased: ZLayer[Config, Nothing, Tags] =
-    ZLayer.fromService(c => new FileTags(c))
+  val fileBased: ZLayer[Config with Files, Nothing, Tags] =
+    ZLayer.fromServices[Config.Service, Files.Service, Tags.Service](
+      (config, files) => new FileTags(config, files)
+    )
 }
