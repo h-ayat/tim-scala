@@ -5,7 +5,7 @@ import tim.core.TagId
 import tim.core.config.Config
 import tim.core.files.Files
 
-private class FileTags(config: Config.Service, files: Files.Service)
+private class FileBasedTags(config: Config.Service, files: Files.Service)
     extends Tags.Service {
 
   override def add(label: String, description: String): zio.UIO[Unit] = ???

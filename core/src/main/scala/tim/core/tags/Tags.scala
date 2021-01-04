@@ -43,6 +43,6 @@ object Tags {
 
   val fileBased: ZLayer[Config with Files, Nothing, Tags] =
     ZLayer.fromServices[Config.Service, Files.Service, Tags.Service](
-      (config, files) => new FileTags(config, files)
+      (config, files) => new FileBasedTags(config, files)
     )
 }
