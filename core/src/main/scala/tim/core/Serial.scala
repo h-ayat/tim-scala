@@ -5,9 +5,9 @@ import io.circe._
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._
+import io.circe.generic.extras.semiauto._
+import io.circe.generic.extras.defaults._
 import zio.IO
-
-import io.circe.{Encoder, Decoder}
 
 sealed trait Serial[T] {
   def serialize(t: T): String
@@ -15,6 +15,7 @@ sealed trait Serial[T] {
 }
 
 object Circe {
+  private implicit val tagIdEncoder: Codec[TagId] = deriveUnwrappedCodec
 
   private def make[T: Decoder: Encoder]: Serial[T] = new Serial[T] {
     override def serialize(t: T): String = t.asJson.noSpaces

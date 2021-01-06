@@ -19,7 +19,9 @@ object Dependencies {
     val generic = group %% "circe-generic" % Versions.circe
     val parser = group %% "circe-parser" % Versions.circe
     val literal = group %% "circe-literal" % Versions.circe
-    val base = core :: generic :: parser :: literal :: Nil
+    val genericExtras = group %% "circe-generic-extras" % Versions.circe
+
+    val base = core :: generic :: parser :: literal :: genericExtras :: Nil
   }
 
   val typesafeConfig = "com.typesafe" % "config" % "1.4.1"
