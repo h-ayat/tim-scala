@@ -1,42 +1,68 @@
 package tim.core
 
-import org.scalatest.matchers._
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import org.scalatest.flatspec.AnyFlatSpec
+import zio.test.DefaultRunnableSpec
+
+import zio.test._
+import zio.test.Assertion._
+import zio.test.environment._
+
+import zio.random.Random
+import zio.test.magnolia._
+import tim.core.Serial
+import zio.IO
+
 import io.circe._, io.circe.parser._
 
-class SerialTest
-    extends AnyFlatSpec
-    with ScalaCheckDrivenPropertyChecks
-    with should.Matchers {
+object SerialTest extends DefaultRunnableSpec {
 
-  "Serializer" should "Serialize and deserialize Tags" in {
-    forAll {
-      (
-          idString: String,
-          label: String,
-          conceptIdString: Option[String],
-          desc: String,
-          deprecated: Boolean
-      ) =>
-        val id = TagId(idString)
-        val conceptId = conceptIdString.map(ConceptId)
+  private val genTag: Gen[Random with Sized, Tag] = DeriveGen[Tag]
 
-        val sourceTag = Tag(id, label, conceptId, desc, deprecated)
-        val json = Circe.tag.serialize(sourceTag)
-
-        parse(json).map(
-          _.asObject.flatMap(_("id").flatMap(_.asString))
-        ) shouldBe Right(Some(idString))
-
-        parse(json).map(
-          _.asObject.flatMap(_("concept").flatMap(_.asString))
-        ) shouldBe Right(conceptIdString.filter(_.nonEmpty)) // TODO make sure
-
-        // TODO Test with ZIO
-        println(json)
-        json.split("\n").length shouldBe 1
-
+  private def tagMirroringTest(tag: Tag): IO[_, TestResult] = {
+    val jsonString = Circe.tag.serialize(tag)
+    Circe.tag.deserialize(jsonString).map { newTag =>
+      assert(newTag)(equalTo(tag))
     }
   }
+
+  private def conceptIdInTagValueClassTest(tag: Tag): TestResult = {
+    val jsonString = Circe.tag.serialize(tag)
+    assert(
+      parse(Circe.tag.serialize(tag)).map {
+        _.asObject.map {
+          _("concept").map(
+            _.asString
+          )
+        }
+      }
+    )(
+      isRight(
+        isSome(
+          isSome(
+            equalTo(tag.concept.map(_.value))
+          )
+        )
+      )
+    )
+  }
+
+  private def tagIdInTagValueClassTest(tag: Tag): TestResult = {
+    val jsonString = Circe.tag.serialize(tag)
+    assert(
+      parse(Circe.tag.serialize(tag)).map {
+        _.asObject.map {
+          _("id").map(
+            _.asString
+          )
+        }
+      }
+    )(isRight(isSome(isSome(isSome(equalTo(tag.id.value))))))
+  }
+
+  override def spec = suite("tag serialSpec")(
+    testM("Serialization and Deserialization")(
+      checkM(genTag)(tagMirroringTest)
+    ),
+    testM("tagId valueClass")(check(genTag)(tagIdInTagValueClassTest)),
+    testM("conceptId valueClass")(check(genTag)(conceptIdInTagValueClassTest))
+  )
 }

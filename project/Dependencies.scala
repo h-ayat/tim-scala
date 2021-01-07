@@ -9,7 +9,14 @@ object Dependencies {
     val core = group %% "zio" % Versions.zio
     val macros = group %% "zio-macros" % Versions.zio
 
-    val base = core :: macros :: Nil
+    val test = group %% "zio-test" % Versions.zio % Test
+    val testSbtPlugin = group %% "zio-test-sbt" % Versions.zio % Test
+    val testMagnolia = group %% "zio-test-magnolia" % Versions.zio % Test
+
+    val testLibs = test :: testSbtPlugin :: testMagnolia :: Nil
+    val baseLibs = core :: macros :: Nil
+
+    val testFramework = "zio.test.sbt.ZTestFramework"
   }
 
   object Circe {

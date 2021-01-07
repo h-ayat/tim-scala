@@ -16,6 +16,7 @@ sealed trait Serial[T] {
 
 object Circe {
   private implicit val tagIdEncoder: Codec[TagId] = deriveUnwrappedCodec
+  private implicit val conceptIdEncoder: Codec[ConceptId] = deriveUnwrappedCodec
 
   private def make[T: Decoder: Encoder]: Serial[T] = new Serial[T] {
     override def serialize(t: T): String = t.asJson.noSpaces

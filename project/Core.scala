@@ -3,11 +3,12 @@ import sbt._
 
 object Core {
   lazy val dependencies =
-    (Dependencies.typesafeConfig :: Nil) ++ Dependencies.Zio.base ++ Dependencies.Circe.base ++ Dependencies.ScalaTest.all
+    (Dependencies.typesafeConfig :: Nil) ++ Dependencies.Zio.baseLibs ++ Dependencies.Zio.testLibs ++ Dependencies.Circe.base
 
   lazy val settings = Common.commonSettings ++ Seq(
     version := "0.0.1",
     name := "core",
-    libraryDependencies ++= dependencies
+    libraryDependencies ++= dependencies,
+    testFrameworks += new TestFramework(Dependencies.Zio.testFramework)
   )
 }
