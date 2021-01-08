@@ -18,16 +18,23 @@ object SerialTest extends DefaultRunnableSpec {
   private val genTag: Gen[Random with Sized, Tag] = DeriveGen[Tag]
 
   private def tagMirroringTest(tag: Tag): IO[_, TestResult] = {
-    val jsonString = Circe.tag.serialize(tag)
-    Circe.tag.deserialize(jsonString).map { newTag =>
+    val jsonString = Serial.tag.serialize(tag)
+    Serial.tag.deserialize(jsonString).map { newTag =>
       assert(newTag)(equalTo(tag))
     }
   }
 
+  private def conceptMirroringTest(concept: Concept): IO[_, TestResult] = {
+    val json = Serial.concept.serialize(concept)
+    Serial.concept.deserialize(json).map { newConcept =>
+      assert(newConcept)(equalTo(concept))
+    }
+  }
+
   private def conceptIdInTagValueClassTest(tag: Tag): TestResult = {
-    val jsonString = Circe.tag.serialize(tag)
+    val jsonString = Serial.tag.serialize(tag)
     assert(
-      parse(Circe.tag.serialize(tag)).map {
+      parse(Serial.tag.serialize(tag)).map {
         _.asObject.map {
           _("concept").map(
             _.asString
@@ -46,9 +53,9 @@ object SerialTest extends DefaultRunnableSpec {
   }
 
   private def tagIdInTagValueClassTest(tag: Tag): TestResult = {
-    val jsonString = Circe.tag.serialize(tag)
+    val jsonString = Serial.tag.serialize(tag)
     assert(
-      parse(Circe.tag.serialize(tag)).map {
+      parse(Serial.tag.serialize(tag)).map {
         _.asObject.map {
           _("id").map(
             _.asString

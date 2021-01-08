@@ -14,7 +14,7 @@ sealed trait Serial[T] {
   def deserialize(s: String): IO[Error, T]
 }
 
-object Circe {
+object Serial {
   private implicit val tagIdEncoder: Codec[TagId] = deriveUnwrappedCodec
   private implicit val conceptIdEncoder: Codec[ConceptId] = deriveUnwrappedCodec
 
@@ -25,6 +25,11 @@ object Circe {
       IO.fromEither(decode[T](s))
   }
 
-  val tag = make[Tag]
+  implicit val tag = make[Tag]
+  implicit val concept = make[Concept]
+  implicit val entry = make[Entry]
 
+  def serialize[T: Serial](t: T): String = implicitly[Serial[T]].serialize(t)
+  def deserialize[T: Serial](s: String): zio.IO[Error, T] =
+    implicitly[Serial[T]].deserialize(s)
 }
