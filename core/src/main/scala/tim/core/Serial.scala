@@ -15,8 +15,11 @@ sealed trait Serial[T] {
 }
 
 object Serial {
-  private implicit val tagIdEncoder: Codec[TagId] = deriveUnwrappedCodec
-  private implicit val conceptIdEncoder: Codec[ConceptId] = deriveUnwrappedCodec
+  private implicit val tagIdCodec: Codec[TagId] = deriveUnwrappedCodec
+  private implicit val conceptIdCodec: Codec[ConceptId] = deriveUnwrappedCodec
+  private implicit val issueIdCodec: Codec[IssueId] = deriveUnwrappedCodec
+  private implicit val userIdCodec: Codec[UserId] = deriveUnwrappedCodec
+  private implicit val timestampCodec: Codec[Timestamp] = deriveUnwrappedCodec
 
   private def make[T: Decoder: Encoder]: Serial[T] = new Serial[T] {
     override def serialize(t: T): String = t.asJson.noSpaces
@@ -25,11 +28,13 @@ object Serial {
       IO.fromEither(decode[T](s))
   }
 
-  implicit val tag = make[Tag]
-  implicit val concept = make[Concept]
-  implicit val entry = make[Entry]
-
   def serialize[T: Serial](t: T): String = implicitly[Serial[T]].serialize(t)
   def deserialize[T: Serial](s: String): zio.IO[Error, T] =
     implicitly[Serial[T]].deserialize(s)
+
+  implicit val tag = make[Tag]
+  implicit val concept = make[Concept]
+  implicit val entry = make[Entry]
+  implicit val user = make[User]
+
 }

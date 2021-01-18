@@ -44,3 +44,6 @@ object Entry {
 
   final case class EndOfDay(start: Timestamp) extends Entry
 }
+
+final case class UserId(value: String) extends AnyVal
+final case class User(id: UserId, name: String, enabled: String)

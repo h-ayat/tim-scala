@@ -41,6 +41,8 @@ object Dependencies {
 
     val all = scalaCheck :: core :: Nil
   }
+  val `commons-text` =
+    "org.apache.commons" % "commons-text" % Versions.`commons-text`
 }
 
 object Versions {
@@ -51,5 +53,6 @@ object Versions {
     val scalaCheck = "3.2.2.0"
     val core = "3.2.2"
   }
+  val `commons-text` = "1.9"
 
 }
