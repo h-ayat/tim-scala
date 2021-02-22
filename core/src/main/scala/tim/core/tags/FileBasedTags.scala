@@ -4,11 +4,21 @@ import tim.core.Tag
 import tim.core.TagId
 import tim.core.config.Config
 import tim.core.files.Files
+import tim.core.repos.BasicFileRepo
+import tim.core.config.FilePathConfig
 
 private class FileBasedTags(config: Config.Service, files: Files.Service)
     extends Tags.Service {
 
-  override def add(label: String, description: String): zio.UIO[Unit] = ???
+  import tim.core.Serial.tag
+  private val fileRepo = FilePathConfig.tagsPath.map { path =>
+    new BasicFileRepo[Tag](files, path)
+  }
+
+  override def add(label: String, description: String): zio.UIO[Unit] = {
+    val newTag = Tag(???, label, None, description, false)
+    ???
+  }
 
   override def get(id: TagId): zio.IO[Tags.TagNotFound, Tag] = ???
 
