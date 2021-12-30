@@ -10,9 +10,11 @@ import tim.core.config.FilePathConfig
 private class FileBasedTags(config: Config.Service, files: Files.Service)
     extends Tags.Service {
 
-  import tim.core.Serial.tag
+  //import tim.core.Serial.tag
   private val fileRepo = FilePathConfig.tagsPath.map { path =>
-    new BasicFileRepo[Tag](files, path)
+//    new BasicFileRepo[Tag](files, path)
+//    TODO Implement
+   ???
   }
 
   override def add(label: String, description: String): zio.UIO[Unit] = {

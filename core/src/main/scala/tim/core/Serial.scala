@@ -5,8 +5,8 @@ import io.circe._
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._
-import io.circe.generic.extras.semiauto._
-import io.circe.generic.extras.defaults._
+// import io.circe.generic.extras.semiauto._
+// import io.circe.generic.extras.defaults._
 import zio.IO
 
 sealed trait Serial[T] {
@@ -15,11 +15,11 @@ sealed trait Serial[T] {
 }
 
 object Serial {
-  private implicit val tagIdCodec: Codec[TagId] = deriveUnwrappedCodec
-  private implicit val conceptIdCodec: Codec[ConceptId] = deriveUnwrappedCodec
-  private implicit val issueIdCodec: Codec[IssueId] = deriveUnwrappedCodec
-  private implicit val userIdCodec: Codec[UserId] = deriveUnwrappedCodec
-  private implicit val timestampCodec: Codec[Timestamp] = deriveUnwrappedCodec
+  // private val tagIdCodec: Codec[TagId] = deriveUnwrappedCodec
+  // private val conceptIdCodec: Codec[ConceptId] = deriveUnwrappedCodec
+  // private val issueIdCodec: Codec[IssueId] = deriveUnwrappedCodec
+  // private val userIdCodec: Codec[UserId] = deriveUnwrappedCodec
+  // private val timestampCodec: Codec[Timestamp] = deriveUnwrappedCodec
 
   private def make[T: Decoder: Encoder]: Serial[T] = new Serial[T] {
     override def serialize(t: T): String = t.asJson.noSpaces
@@ -32,9 +32,9 @@ object Serial {
   def deserialize[T: Serial](s: String): zio.IO[Error, T] =
     implicitly[Serial[T]].deserialize(s)
 
-  implicit val tag = make[Tag]
-  implicit val concept = make[Concept]
-  implicit val entry = make[Entry]
-  implicit val user = make[User]
+  // val tag = make[Tag]
+  // val concept = make[Concept]
+  // val entry = make[Entry]
+  // val user = make[User]
 
 }

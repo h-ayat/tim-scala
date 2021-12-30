@@ -1,14 +1,14 @@
 lazy val circe = new {
   private val group = "io.circe"
-  private val version = "0.13.0"
+  private val version = "0.14.1"
 
   val core = group %% "circe-core" % version
   val generic = group %% "circe-generic" % version
   val parser = group %% "circe-parser" % version
-  val literal = group %% "circe-literal" % version
-  val genericExtras = group %% "circe-generic-extras" % version
+  /* val literal = group %% "circe-literal" % version */
+  /* val genericExtras = group %% "circe-generic-extras" % version */
 
-  val base = core :: generic :: parser :: literal :: genericExtras :: Nil
+  val base = core :: generic :: parser :: Nil
 }
 
 lazy val zio = new {
@@ -33,9 +33,7 @@ lazy val typesafeConfig = "com.typesafe" % "config" % "1.4.1"
 version := "0.0.1"
 name := "core"
 libraryDependencies ++=
-  `commons-text` :: typesafeConfig :: zio.core ::  (zio.testLibs ++ circe.base)
+  `commons-text` :: typesafeConfig :: zio.core :: (zio.testLibs ++ circe.base)
 
 testFrameworks += new TestFramework(Dependencies.Zio.testFramework)
 
-
-scalacOptions += "-Ymacro-annotations"

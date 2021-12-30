@@ -35,11 +35,12 @@ object Tags {
         id: TagId,
         isDeprecated: Boolean
     ): IO[TagNotFound, Boolean]
+
   }
 
-  def add(label: String, description: String): URIO[Tags, Unit] = ???
-  def get(id: TagId): ZIO[Tags, TagNotFound, Tag] = ???
-  def getAll(): URIO[Tags, List[Tag]] = ???
+  def add(label: String, description: String): URIO[Tags, Unit] = ZIO.accessM[Tags](_.get.add(label, description))
+  def get(id: TagId): ZIO[Tags, TagNotFound, Tag] = ZIO.accessM[Tags](_.get.get(id))
+  def getAll(): URIO[Tags, List[Tag]] = ZIO.accessM[Tags](_.get.getAll())
 
   /** Updates the tag
     *
@@ -48,7 +49,7 @@ object Tags {
     * [[false]] if the tag is registered, but is the same with the one provided.
     * [[true]] otherwise.
     */
-  def update(tag: Tag): ZIO[Tags, TagNotFound, Boolean] = ???
+  def update(tag: Tag): ZIO[Tags, TagNotFound, Boolean] = ZIO.accessM[Tags](_.get.update(tag))
 
   /** Deprecates given tag, so that it won't appear in search results.
     *
@@ -61,7 +62,7 @@ object Tags {
   def toggleDeprecation(
       id: TagId,
       isDeprecated: Boolean
-  ): ZIO[Tags, TagNotFound, Boolean] = ???
+  ): ZIO[Tags, TagNotFound, Boolean] = ZIO.accessM[Tags](_.get.toggleDeprecation(id, isDeprecated))
 
   val fileBased: ZLayer[Config with Files, Nothing, Tags] =
     ZLayer.fromServices[Config.Service, Files.Service, Tags.Service](

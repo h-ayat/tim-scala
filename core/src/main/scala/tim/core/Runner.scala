@@ -1,5 +1,6 @@
 package tim.core
 
-object Runner extends App {
-  println("Hello world")
-}
+@main def run = println("Hello world")
+
+
+val a = 12_000

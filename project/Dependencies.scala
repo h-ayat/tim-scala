@@ -25,10 +25,9 @@ object Dependencies {
     val core = group %% "circe-core" % Versions.circe
     val generic = group %% "circe-generic" % Versions.circe
     val parser = group %% "circe-parser" % Versions.circe
-    val literal = group %% "circe-literal" % Versions.circe
     val genericExtras = group %% "circe-generic-extras" % Versions.circe
 
-    val base = core :: generic :: parser :: literal :: genericExtras :: Nil
+    val base = core :: generic :: parser :: genericExtras :: Nil
   }
 
   val typesafeConfig = "com.typesafe" % "config" % "1.4.1"
@@ -47,7 +46,7 @@ object Dependencies {
 
 object Versions {
   val zio = "1.0.3"
-  val circe = "0.13.0"
+  val circe = "0.14.1"
 
   object ScalaTest {
     val scalaCheck = "3.2.2.0"

@@ -1,6 +1,6 @@
 package tim.core.files
 
-import zio.{ZIO,Task}
+import zio.{ZIO, Task}
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.nio.file.Path
@@ -12,9 +12,12 @@ object Files {
     def appendToFile(path: Path, contents: String): Task[Unit]
   }
 
-  def readFile(path: Path): ZIO[Files,Throwable,String] = ???
-  def writeFile(path: Path, contents: String): ZIO[Files, Throwable, Unit] = ???
-  def appendToFile(path: Path, contents: String): ZIO[Files, Throwable, Unit] = ???
+  def readFile(path: Path): ZIO[Files, Throwable, String] =
+    ZIO.accessM[Files](_.get.readFile(path))
+  def writeFile(path: Path, contents: String): ZIO[Files, Throwable, Unit] =
+    ZIO.accessM[Files](_.get.writeFile(path, contents))
+  def appendToFile(path: Path, contents: String): ZIO[Files, Throwable, Unit] =
+    ZIO.accessM[Files](_.get.appendToFile(path, contents))
 }
 
 private class NIOFiles extends Files.Service {
