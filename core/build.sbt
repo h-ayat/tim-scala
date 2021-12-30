@@ -1,15 +1,4 @@
-lazy val circe = new {
-  private val group = "io.circe"
-  private val version = "0.14.1"
-
-  val core = group %% "circe-core" % version
-  val generic = group %% "circe-generic" % version
-  val parser = group %% "circe-parser" % version
-  /* val literal = group %% "circe-literal" % version */
-  /* val genericExtras = group %% "circe-generic-extras" % version */
-
-  val base = core :: generic :: parser :: Nil
-}
+val spray = "io.spray" %% "spray-json" % "1.3.6"
 
 lazy val zio = new {
   private val group = "dev.zio"
@@ -33,7 +22,6 @@ lazy val typesafeConfig = "com.typesafe" % "config" % "1.4.1"
 version := "0.0.1"
 name := "core"
 libraryDependencies ++=
-  `commons-text` :: typesafeConfig :: zio.core :: (zio.testLibs ++ circe.base)
+  spray :: `commons-text` :: typesafeConfig :: zio.core :: zio.testLibs
 
 testFrameworks += new TestFramework(Dependencies.Zio.testFramework)
-
